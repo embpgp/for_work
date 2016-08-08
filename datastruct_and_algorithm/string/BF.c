@@ -1,3 +1,15 @@
+/*
+ *a simple mode to match a string to return a index
+ *
+ *author : rutk1t0r
+ *
+ *2016.8.8
+ *
+ *
+ */
+
+
+
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -14,7 +26,7 @@ int BF_strIndex(char *s, char *t)
 		}
 		else
 		{
-			i = i - j + 1;
+			i = i - j + 1;  //go back the next position
 			j = 0;
 		}
 	}
