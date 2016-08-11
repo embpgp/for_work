@@ -21,12 +21,18 @@ main(int argc, char *argv[])
 	InsertRightForParent(root, 3, root);
 	InsertLeftForParent(root, 4, root->lchild);
 	InsertRightForParent(root, 5, root->rchild);
-	DeleteRecursionSubtree(&(root->rchild));
+	//DeleteRecursionSubtree(&(root->rchild));
 	puts("**********PreOrder***************");
 	PreOrder(root);
 	puts("**********InOrder****************");
 	InOrder(root);
 	puts("**********PostOrder**************");
 	PostOrder(root);
+	puts("**********PreOrderUnRecursion***************");
+	PreOrderUnRecursion(root);
+	puts("**********MidOrderUnRecursion****************");
+	MidOrderUnRecursion(root);
+	puts("**********PostOrderUnRecursion****************");
+	PostOrderUnRecursion(root);
 	return 0;
 }

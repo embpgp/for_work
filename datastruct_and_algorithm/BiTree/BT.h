@@ -55,4 +55,16 @@ InOrder(BiTree bt);
 void
 PostOrder(BiTree bt);
 
+
+
+/*PreOrderUnRecursion*/
+void
+PreOrderUnRecursion(BiTree bt);
+/*MidOrderUnRecursion*/
+void 
+MidOrderUnRecursion(BiTree bt);
+/*PostOrderUnRecursion*/
+void
+PostOrderUnRecursion(BiTree bt);
+
 #endif

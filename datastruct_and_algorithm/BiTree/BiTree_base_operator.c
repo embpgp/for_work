@@ -13,7 +13,7 @@
  */
 
 #include "BT.h"
-
+#include "SqStack.h"
 /*1*/
 BiTree 
 Create(datatype root, pBTNode lbt, pBTNode rbt)
@@ -124,6 +124,8 @@ DeleteRight(BiTree bt, BiTree parent)
 	return bt; 
 }
 
+
+
 /*Recursion delete*/
 int 
 DeleteRecursionSubtree(BiTree *p)
@@ -139,6 +141,8 @@ DeleteRecursionSubtree(BiTree *p)
 	
 	return !0;
 }
+
+
 /*Recursion algorithm*/
 void
 PreOrder(BiTree bt)
@@ -175,21 +179,86 @@ PostOrder(BiTree bt)
 	PostOrder(bt->rchild);
 	printf("%d\n", bt->data);//visit
 }
-/*
-int 
-main(int argc, char *argv[])
+
+
+
+
+/*PreOrderUnRecursion*/
+void
+PreOrderUnRecursion(BiTree bt)
 {
-	BiTree root = Create(1, NULL, NULL);
-	InsertLeftForParent(root, 2, root);
-	InsertRightForParent(root, 3, root);
-	InsertLeftForParent(root, 4, root->lchild);
-	InsertRightForParent(root, 5, root->rchild);
-	DeleteRecursionSubtree(&(root->rchild));
-	puts("**********PreOrder***************");
-	PreOrder(root);
-	puts("**********InOrder****************");
-	InOrder(root);
-	puts("**********PostOrder**************");
-	PostOrder(root);
-	return 0;
-}*/
+	SqStack s;
+	StackInit(&s);
+	BTNode *p = bt;
+	while(p || !StackEmpty(&s))
+	{
+		while(p)
+		{
+			printf("%d\n", p->data);   //visit the data
+			push(&s, p);
+			p = p->lchild;
+		}
+		if(!StackEmpty(&s))
+		{
+			p = pop(&s);
+			p = p->rchild;
+		}
+	}
+}
+/*MidOrderUnRecursion*/
+void 
+MidOrderUnRecursion(BiTree bt)
+{
+	SqStack s;
+	StackInit(&s);
+	BTNode *p = bt;
+	while(p || !StackEmpty(&s))
+	{
+		while(p)
+		{
+			push(&s,p);
+			p = p->lchild;
+		}
+		if(!StackEmpty(&s))
+		{
+			p = pop(&s);            //must pop first
+			printf("%d\n", p->data); // visit the data
+			p = p->rchild;
+		}
+	}
+}
+/*PostOrderUnRecursion*/
+void
+PostOrderUnRecursion(BiTree bt)
+{
+	SqStack_Post s;
+	StackInit_Post(&s);
+	stacknode x;
+	BTNode *p = bt;
+	while(p || !StackEmpty_Post(&s))
+	{
+		if(p)
+		{
+			x.ptr = p;
+			x.flag = 1;      //set the first visit
+			push_post(&s, x); 
+			p = p->lchild;
+		}
+		else
+		{
+			x = pop_post(&s); 
+			if(x.flag == 1)
+			{
+				x.flag = 2;  //set the second visit
+				p = x.ptr;
+				push_post(&s, x);
+				p = p->rchild;
+			}
+			else if(x.flag == 2)
+			{
+				printf("%d\n", x.ptr->data);
+			}
+		}
+	}
+
+}
