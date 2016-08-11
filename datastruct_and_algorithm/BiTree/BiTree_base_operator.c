@@ -13,7 +13,7 @@
  */
 
 #include "BT.h"
-#include "SqStack.h"
+#include "SqStack.h"    
 /*1*/
 BiTree 
 Create(datatype root, pBTNode lbt, pBTNode rbt)
@@ -48,14 +48,14 @@ InsertLeftForParent(BiTree bt, datatype e, BiTree parent)
 	p->data = e;
 	p->lchild = NULL;
 	p->rchild = NULL;
-	if(parent->lchild == NULL)
+	if(parent->lchild == NULL)  //if the parent's lchild is null,directly set
 	{
 		parent->lchild = p;
 	}
 	else
 	{
-		p->lchild = parent->lchild;
-		parent->lchild = p;
+		p->lchild = parent->lchild; // otherwise make the parent's lchild as the p's lchild
+		parent->lchild = p;         // then set p as the parent's lchild
 	}
 	return bt;
 }
@@ -78,7 +78,7 @@ InsertRightForParent(BiTree bt, datatype e, BiTree parent)
 	p->data = e;
 	p->lchild = NULL;
 	p->rchild = NULL;
-	if(parent->rchild == NULL)
+	if(parent->rchild == NULL)    //it's the same as Above-mentioned
 	{
 		parent->rchild = p;
 	}
@@ -103,7 +103,7 @@ DeleteLelf(BiTree bt, BiTree parent)
 	p = parent->lchild;
 	parent->lchild = NULL;
 
-	//if(p->li)
+	DeleteRecursionSubtree(&p);  //for free
 	return bt; 
 }
 
@@ -120,7 +120,7 @@ DeleteRight(BiTree bt, BiTree parent)
 	p = parent->rchild;
 	parent->rchild = NULL;
 
-	//if(p->li)
+	DeleteRecursionSubtree(&p);  //for free 
 	return bt; 
 }
 
@@ -152,7 +152,7 @@ PreOrder(BiTree bt)
 		return ;
 	}
 	//bt->data = bt->data;  //visit
-	printf("%d\n", bt->data);
+	printf("%8d", bt->data);
 	PreOrder(bt->lchild);
 	PreOrder(bt->rchild);
 }
@@ -164,7 +164,7 @@ InOrder(BiTree bt)
 		return;
 	}
 	InOrder(bt->lchild);
-	printf("%d\n", bt->data); // visit3
+	printf("%8d", bt->data); // visit3
 	InOrder(bt->rchild);
 }
 
@@ -177,7 +177,7 @@ PostOrder(BiTree bt)
 	}
 	PostOrder(bt->lchild);
 	PostOrder(bt->rchild);
-	printf("%d\n", bt->data);//visit
+	printf("%8d", bt->data);//visit
 }
 
 
@@ -192,13 +192,13 @@ PreOrderUnRecursion(BiTree bt)
 	BTNode *p = bt;
 	while(p || !StackEmpty(&s))
 	{
-		while(p)
+		if(p)
 		{
-			printf("%d\n", p->data);   //visit the data
+			printf("%8d", p->data);   //visit the data
 			push(&s, p);
 			p = p->lchild;
 		}
-		if(!StackEmpty(&s))
+		else /*if(!StackEmpty(&s))*/
 		{
 			p = pop(&s);
 			p = p->rchild;
@@ -214,19 +214,20 @@ MidOrderUnRecursion(BiTree bt)
 	BTNode *p = bt;
 	while(p || !StackEmpty(&s))
 	{
-		while(p)
+		if(p)
 		{
 			push(&s,p);
 			p = p->lchild;
 		}
-		if(!StackEmpty(&s))
+		else /*if(!StackEmpty(&s))*/
 		{
 			p = pop(&s);            //must pop first
-			printf("%d\n", p->data); // visit the data
+			printf("%8d", p->data); // visit the data
 			p = p->rchild;
 		}
 	}
 }
+
 /*PostOrderUnRecursion*/
 void
 PostOrderUnRecursion(BiTree bt)
@@ -256,7 +257,7 @@ PostOrderUnRecursion(BiTree bt)
 			}
 			else if(x.flag == 2)
 			{
-				printf("%d\n", x.ptr->data);
+				printf("%8d", x.ptr->data);   //visit the x.ptr date,not p
 			}
 		}
 	}
