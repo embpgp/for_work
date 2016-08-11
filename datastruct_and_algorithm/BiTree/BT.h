@@ -28,4 +28,31 @@ typedef struct BTNode
 }BTNode,*pBTNode,*BiTree;
 
 
+/*1*/
+BiTree 
+Create(datatype root, pBTNode lbt, pBTNode rbt);
+/*2*/
+BiTree
+InsertLeftForParent(BiTree bt, datatype e, BiTree parent);
+/*3*/
+BiTree
+InsertRightForParent(BiTree bt, datatype e, BiTree parent);
+
+/*4*/
+BiTree 
+DeleteLelf(BiTree bt, BiTree parent);
+/*5*/
+BiTree 
+DeleteRight(BiTree bt, BiTree parent);
+/*Recursion delete*/
+int 
+DeleteRecursionSubtree(BiTree *p);
+/*Recursion algorithm*/
+void
+PreOrder(BiTree bt);
+void
+InOrder(BiTree bt);
+void
+PostOrder(BiTree bt);
+
 #endif

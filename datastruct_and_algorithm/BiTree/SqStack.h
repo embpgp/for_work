@@ -20,6 +20,18 @@ typedef struct
 	/* data */
 }SqStack,*pSqStack;
 
+//0
+void
+StackInit(SqStack *s);
+//1
+void 
+push(SqStack *s, BTNode *p);
 
+//2
+BTNode*
+pop(SqStack *s);
 
+//3
+int 
+StackEmpty(SqStack *p);
 #endif
