@@ -196,6 +196,7 @@ main(int argc, char *argv[])
 	InsertRightForParent(root, 3, root);
 	InsertLeftForParent(root, 4, root->lchild);
 	InsertRightForParent(root, 5, root->rchild);
+	DeleteRecursionSubtree(&(root->rchild));
 	puts("**********PreOrder***************");
 	PreOrder(root);
 	puts("**********InOrder****************");
