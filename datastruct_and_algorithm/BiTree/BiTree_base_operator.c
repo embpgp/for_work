@@ -1,5 +1,5 @@
 /*
- *BiTree base operator for difine.create.insert.delete.Order
+ *BiTree base operator for define.create.insert.delete.Order
  *
  *
  *author:rukt1t0r
