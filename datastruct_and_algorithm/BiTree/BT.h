@@ -28,6 +28,16 @@ typedef struct BTNode
 }BTNode,*pBTNode,*BiTree;
 
 
+/*线索二叉树*/
+typedef struct BiThrNode
+{
+	datatype data;
+	struct BiThrNode *lchild;
+	struct BiThrNode *rchild;
+	unsigned ltag:1;     /*0 is pointer a lchild,1 is pre*/
+	unsigned rtag:1;     /*0 is ponter a rchild, 1 is post*/
+}BiThrNode, *BiThrTree;
+
 /*1*/
 BiTree 
 Create(datatype root, pBTNode lbt, pBTNode rbt);
@@ -66,5 +76,43 @@ MidOrderUnRecursion(BiTree bt);
 /*PostOrderUnRecursion*/
 void
 PostOrderUnRecursion(BiTree bt);
+
+
+
+
+
+/*
+二叉线索树的一些操作
+
+*/
+ /*中序遍历过程中进行中序线索化
+  */
+
+
+void 
+InThread(BiThrTree p);
+/*
+ *中序遍历建立二叉索引树
+ */
+BiThrTree 
+InOrderThr(BiThrTree p);
+
+/*
+ *访问各个节点
+ */
+
+void 
+VisitThr(BiThrTree root);
+
+
+/*创建二叉树*/
+BiThrTree 
+CreateThr(datatype root, BiThrNode* lbt, BiThrNode* rbt);
+/*插入左子树*/
+BiThrTree
+InsertLeftForParentThr(BiThrTree bt, datatype e, BiThrTree parent);
+/*插入右子树*/
+BiThrTree
+InsertRightForParentThr(BiThrTree bt, datatype e, BiThrTree parent);
 
 #endif
