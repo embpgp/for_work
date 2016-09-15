@@ -98,11 +98,11 @@ BiThrTree
 InOrderThr(BiThrTree p);
 
 /*
- *访问各个节点
+ *中序遍历访问各个节点
  */
 
 void 
-VisitThr(BiThrTree root);
+InVisitThr(BiThrTree root);
 
 
 /*创建二叉树*/
@@ -115,4 +115,65 @@ InsertLeftForParentThr(BiThrTree bt, datatype e, BiThrTree parent);
 BiThrTree
 InsertRightForParentThr(BiThrTree bt, datatype e, BiThrTree parent);
 
+/*
+在一棵建立好了的线索二叉树中查找一个任意节点的前驱节点
+1.如果该节点没有左子树,那么它的左标志ltag为1,则左孩子的左指针域就是它的直接前驱
+2.当有左子树的时候,ltag = 0,按照中序遍历的定义,该节点的直接前驱应该是以它的左孩子为根节点的子树的最右节点
+  即沿着其左子树的右孩子节点指针rchild向下查找,当右标志rtag=1的时候,就找到了
+*/
+
+BiThrTree 
+InPreNode(BiThrTree p);
+
+
+
+
+/*
+在一棵建立好了的线索二叉树中查找任意节点的前驱节点
+1.如果这个节点没有右子树,那么它的右标志rtag=1,则右孩子即是它的直接后继
+2.如果有右子树的话,那么rtag=0,依照中序遍历的定义,它的直接后继是以它的右孩子为根节点的最左边节点
+  即沿着它的右子树的左孩子节点指针lchild向下查找,当左标志ltag=1的时候就找到了
+*/
+
+BiThrTree
+InPostNode(BiThrTree p);
+
+
+/*
+查找值为e的节点,可以借助上述算法
+1.先找到中序遍历的第一个节点,然后依次搜索它的后继节点来匹配
+2.先找到中序遍历的最后一个节点,然后依次搜索它的前驱节点来匹配
+*/
+
+BiThrTree Locate(BiThrTree H, datatype e);
+
+
+
+/*
+前序遍历线索化
+*/
+void 
+PreThread(BiThrTree p);
+/*建立前序二叉线索树*/
+BiThrTree 
+PreOrderThr(BiThrTree p);
+/*前序遍历访问*/
+void 
+PreVisitThr(BiThrTree root);
+
+
+
+/* 后续遍历线索*/
+void
+PostThread(BiThrTree p);
+
+/*后序二叉线索树*/
+BiThrTree
+PostOrderThr(BiThrTree p);
+/*后续遍历访问*/
+void
+PostVisitThr(BiThrTree root);
+/*后序线索化求某个节点的父节点*/
+BiThrNode *
+parent(BiThrTree root, BiThrNode *p);
 #endif

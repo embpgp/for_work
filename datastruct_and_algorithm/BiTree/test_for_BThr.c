@@ -21,9 +21,23 @@
      InsertRightForParentThr(root, 3, root);
      InsertLeftForParentThr(root, 4, root->lchild);
      InsertRightForParentThr(root, 5, root->rchild);
-     BiThrTree v_root = InOrderThr(root);/*线索化二叉树*/
+     
+     /*
+     BiThrTree v_root = InOrderThr(root);
      printf("中序线索遍历结果如下:\n");
-     VisitThr(v_root); 
+     InVisitThr(v_root); 
      printf("\n");
+     
+     printf("前序遍历结果如下:\n");
+     BiThrTree v_root = PreOrderThr(root);
+     PreVisitThr(v_root);
+     printf("\n");
+     */
+     
+     printf("后序遍历结果如下:\n");
+     BiThrTree v_root = PostOrderThr(root);
+     PostVisitThr(v_root);
+     printf("\n");
+     
      return 0;
  }
