@@ -294,7 +294,7 @@ PreThread(BiThrTree p)
         {
             p->ltag = 0;
         }
-        if(!pre->rchild)
+        if(!pre->rchild)      //注意要交换来
         {
             pre->rtag = 1;
             pre->rchild = p;
@@ -418,7 +418,7 @@ PostOrderThr(BiThrTree p)
         pre = root;
         PostThread(p);
         root->rchild = pre;
-        //pre->rchild = root;
+        //pre->rchild = root;        出bug的地方,在于没有深刻理解结构体各个成员的含义,xjbg了
         
     }
     return root;
