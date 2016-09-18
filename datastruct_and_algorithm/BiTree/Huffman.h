@@ -20,7 +20,8 @@
 #include <malloc.h>
 
 #define MaxWeight 65535
-#define MaxNode     100
+#define MaxNode     128
+#define MaxCode     64
 typedef struct
 {
     int weight; 
@@ -30,8 +31,16 @@ typedef struct
 }HNode;
 
 
+typedef struct
+{
+    int code[MaxCode];   //保存序列
+    int start;          //从最下面的节点到根节点这一段最下面节点的偏移量,即起始位置,但是保存的时候是"逆向"的
+}HCodeType;
 
 /*构造哈夫曼树的算法*/
 void 
-HuffmanTree(HNode HuffmanNode[]);
+HuffmanTree(HNode HuffmanNode[],int n);
+/*哈弗曼编码算法*/
+void
+HuffmanCodeTree(HNode HuffmanNode[], int n, HCodeType HuffmanCode[]);
 #endif
