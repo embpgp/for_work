@@ -13,8 +13,6 @@
  *Method: g++ -o compression compression.c
  *  	  
  *        
- *
- *        
  */
 
 #include <stdio.h>
@@ -170,8 +168,8 @@ void decompression(const char *path, char *input)
 	{
 		count = atoi(&p);
 		c = *p++;
-		while(i<count && (n = write(fd, (char*)&c, 1)) > 0) //一直写入,虽然效率低,多次IO操作,但是小的数据量没问题
-		{
+		while(i<count && (n = write(fd, (char*)&c, 1)) > 0) //一直写入,效率低,多次IO操作,在这里为了简单就用系统调用了
+		{						   //可以使用带缓存的IO,例如fopen,fwrite等,在这里库函数是对系统调用的封装
 			++i;
 		}
 		if(n == -1)
@@ -189,7 +187,7 @@ void Usage(void)
 {
 	puts("Usage: compression [cd] [string] [file]");
 	puts("-c 压缩串,读出一个文件中的串并进行压缩,测试参考方法:在Linux终端下键入 echo -n `python -c \"print 'Abd'+'B'*20480+'c'*1000\"` > file.txt  然后输入 ./compression -c file.txt ");
-	puts("-d 解压串,读出用户输入的一个串进行解压到文件保存,测试参考方法,在Linux终端下键入 ./compression -d 3a3ba2c");
+	puts("-d 解压串,读出用户输入的一个串进行解压到文件保存,测试参考方法:在Linux终端下键入 ./compression -d 3a3ba2c");
 }
 int main(int argc, char *argv[])
 {
