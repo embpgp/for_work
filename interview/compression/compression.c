@@ -1,8 +1,8 @@
 /*
  *Filename:compression.c
  *
- *Description:read a file and compression it,the input like "aaabbbacc" and the output
- *            like "3a3ba2c"
+ *Description: 1,read a file and compression it,the input like "aaabbbacc" and the output like "3a3ba2c"
+ *             2,read a string and decompression it, the input like "3a3ba2c" and the file content is aaabbbacc
  *
  *Author:rutk1t0r
  *
@@ -10,9 +10,11 @@
  *
  *GPL
  *
- *Method: in the console input "echo -n `python -c "print 'Abd'+'B'*20480+'c'*1000"` > file.txt "
- *  	  Why? Because it is useful to create a file by python,especially on a large scale
- *        the echo -n is remove the \n
+ *Method: g++ -o compression compression.c
+ *  	  
+ *        
+ *
+ *        
  */
 
 #include <stdio.h>
@@ -34,6 +36,7 @@ static inline int isdigit(int ch)
 	return (ch >= '0') && (ch <= '9');
 }
 
+//这个函数的主要目的在printf里面获取宽度,即类似于 `1024d` 的话就可以使得1024返回并使得指针*s指向d,很方便
 static int atoi(char **s)
 {
 	int i = 0;
@@ -149,22 +152,70 @@ void CompressionFile(const char *path, char *output, long outputlen)
 }
 
 //解压代码
-void decompression(const char *path, const char *input)
+void decompression(const char *path, char *input)
 {
-	
+	assert(path != NULL && input != NULL);
+	char *p = input;
+	char c;
+	ssize_t n;
+	size_t count, i = 0;
+	int fd;
+	fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0644);  //新建立一个文件
+	if(fd < -1)
+	{
+		perror("open error");
+		exit(-1);
+	}
+	while(*p)
+	{
+		count = atoi(&p);
+		c = *p++;
+		while(i<count && (n = write(fd, (char*)&c, 1)) > 0) //一直写入,虽然效率低,多次IO操作,但是小的数据量没问题
+		{
+			++i;
+		}
+		if(n == -1)
+		{
+			perror("write error");
+			close(fd);
+			exit(-1);
+		}
+		i = 0;
+	}
+	close(fd);
+}
+
+void Usage(void)
+{
+	puts("Usage: compression [cd] [string] [file]");
+	puts("-c 压缩串,读出一个文件中的串并进行压缩,测试参考方法:在Linux终端下键入 echo -n `python -c \"print 'Abd'+'B'*20480+'c'*1000\"` > file.txt  然后输入 ./compression -c file.txt ");
+	puts("-d 解压串,读出用户输入的一个串进行解压到文件保存,测试参考方法,在Linux终端下键入 ./compression -d 3a3ba2c");
 }
 int main(int argc, char *argv[])
 {
-	if(argc != 2)
+	if(argc != 3 && argc != 4)
 	{
-		printf("please input like %s file.txt,and the contents of the file.txt is like \
-aaabbbacc\n", argv[0]);
-		exit(1);
+		Usage();
+		return 1;
 	}
-	const char *str = argv[1];
-	char output[4096] = {0};
-	CompressionFile(str, output, sizeof(output));
-	
-	printf("压缩之后字符串:%s\n", output);
-	return 0;
+	if(strcmp(argv[1], "-c") == 0)
+	{
+		char *path = argv[2];
+		char output[4096] = {0};
+		CompressionFile(path, output, sizeof(output));
+		printf("压缩之后字符串:%s\n", output);
+		return 0;
+	}
+	else if(strcmp(argv[1], "-d") == 0)
+	{
+		char *str = argv[2];
+		char *filename = argv[3];
+		decompression(argv[3], argv[2]);
+		return 0;
+	}
+	else
+	{
+		Usage();
+	}
+	return 1;
 }
