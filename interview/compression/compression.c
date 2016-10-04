@@ -204,7 +204,7 @@ int main(int argc, char *argv[])
 		printf("压缩之后字符串:%s\n", output);
 		return 0;
 	}
-	else if(strcmp(argv[1], "-d") == 0)
+	else if(strcmp(argv[1], "-d") == 0 && argc >= 4)
 	{
 		char *str = argv[2];
 		char *filename = argv[3];
