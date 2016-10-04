@@ -101,7 +101,7 @@ void CompressionFile(const char *path, char *output, long outputlen)
 		perror("error for open");
 		exit(-1);	
 	}
-	while( (n = read(fd, buf, buf_size)) > 0) //一直读到末尾为止
+	while((n = read(fd, buf, buf_size)) > 0) //一直读到末尾为止
 	{
 		memset(size, 0, 32);
 		CompressionString(buf, n, temp_output, buf_size); //压缩并通过参数返回
@@ -112,7 +112,7 @@ void CompressionFile(const char *path, char *output, long outputlen)
 		perror("read error");
 		exit(-1);
 	}
-	close(fd);
+	close(fd);          //close the fd
 
 	//printf("%s\n", output);   //合并之前
 	p = output;
@@ -187,7 +187,7 @@ void Usage(void)
 {
 	puts("Usage: compression [cd] [string] [file]");
 	puts("-c 压缩串,读出一个文件中的串并进行压缩,测试参考方法:在Linux终端下键入 echo -n `python -c \"print 'Abd'+'B'*20480+'c'*1000\"` > file.txt  然后输入 ./compression -c file.txt ");
-	puts("-d 解压串,读出用户输入的一个串进行解压到文件保存,测试参考方法:在Linux终端下键入 ./compression -d 3a3ba2c");
+	puts("-d 解压串,读出用户输入的一个串进行解压到文件保存,测试参考方法:在Linux终端下键入 ./compression -d 3a3ba2c decomression.txt");
 }
 int main(int argc, char *argv[])
 {
