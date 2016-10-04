@@ -40,12 +40,12 @@ String::~String()
 	delete []m_pData;
 }
 
-//重载赋值运算符,参考了剑指offer,考虑到了new新的对象的时候抛出异常的情况
+//重载赋值运算符,参考了剑指offer,考虑到了new新的对象的时候抛出异常的情况,并返回自身引用,实现链式赋值,例如a=b=c等
 String & String::operator=(const String & other)
 {
-	if(*this != other)
+	if(this != &other)
 	{
-		String strTemp(other);   //strTemp为零时对象,超出作用范围的时候将被析构掉
+		String strTemp(other);   //strTemp为临时对象,超出作用范围的时候将被析构掉
 		char *pTemp = other.m_pData;  //此处为"狸猫换太子"
 		m_pData = other.m_pData;
 		other.m_pData = pTemp;
