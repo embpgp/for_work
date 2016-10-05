@@ -32,9 +32,8 @@ void ReplaceBlank(char *string, int length)
 		++len;
 	}
 	newlen = len + 2*count;  //total length
-	if(newlen > length)
+	if(newlen > length || count == 0)
 	{
-		printf("not enough space!!!\n");
 		return;
 	}
 	newlen--; //not pointer the \0
