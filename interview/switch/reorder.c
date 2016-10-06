@@ -1,7 +1,7 @@
 /*
  *Filename: reorder.c
  *
- *Description:split tow part of a array by a condition(function pointer)
+ *Description:split two part of a array by a condition(function pointer)
  *
  *Author:rutk1t0r
  *
