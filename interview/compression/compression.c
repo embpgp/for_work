@@ -21,11 +21,10 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <errno.h>
-#include <stdlib.h>
 #include <unistd.h>
 #include <assert.h>
 #include <malloc.h>
-
+#include <stdlib.h>
 
 #define buf_size 1024
 //copy Linux内核源码关于printf实现部分的函数并作为自己用
@@ -35,7 +34,7 @@ static inline int isdigit(int ch)
 }
 
 //这个函数的主要目的在printf里面获取宽度,即类似于 `1024d` 的话就可以使得1024返回并使得指针*s指向d,很方便
-static int atoi(char **s)
+static int myatoi(char **s)
 {
 	int i = 0;
 	if(!isdigit(**s))    //此处是我自己根据自身情况修改的
@@ -93,6 +92,11 @@ void CompressionFile(const char *path, char *output, long outputlen)
 	char size[32] = {0};               //保存大小的缓冲
 	char *p, c1, c2;
 	char *switch_output = (char*)malloc(outputlen);
+	if(switch_output == NULL)
+	{
+		perror("error for malloc");
+		return;
+	}
 	memset(output, 0, outputlen);
 	memset(switch_output, 0, outputlen);
 	fd = open(path, O_RDONLY);     //只读的方式打开文件
@@ -116,12 +120,12 @@ void CompressionFile(const char *path, char *output, long outputlen)
 
 	//printf("%s\n", output);   //合并之前
 	p = output;
-	count1 = atoi(&p);   //获得个数并使得指针后移指向字符
+	count1 = myatoi(&p);   //获得个数并使得指针后移指向字符
 	c1 = *p++;          //获得字符并指向下一个字符的个数的地址
 	while(*p)           //开始遍历
 	{
 		memset(size, 0, 32);
-		count2 = atoi(&p);
+		count2 = myatoi(&p);
 		c2 = *p++;                 //上述
 		if(c1 == c2)
 		{
@@ -166,7 +170,7 @@ void decompression(const char *path, char *input)
 	}
 	while(*p)
 	{
-		count = atoi(&p);
+		count = myatoi(&p);
 		c = *p++;
 		while(i<count && (n = write(fd, (char*)&c, 1)) > 0) //一直写入,效率低,多次IO操作,在这里为了简单就用系统调用了
 		{						   //可以使用带缓存的IO,例如fopen,fwrite等,在这里库函数是对系统调用的封装

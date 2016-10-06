@@ -43,7 +43,7 @@ void scan(const char* pszText, const char* pszName)
         if(pszName[j]=='*')
         {
             j++;//跳过‘*’，继续匹配直到下一个字符匹配上为止
-            while(pszText[i++]!=pszName[j] && i<strlen(pszText));
+            while(pszText[i++] != pszName[j] && i<strlen(pszText));
                 {
                     j++;//找到匹配的字符之后，j也向后移动一位。
                 }
